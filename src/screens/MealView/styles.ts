@@ -3,6 +3,7 @@ import theme from '../../theme'
 
 interface Props{
     isIntoDiet: boolean;
+    isModalOpen: boolean;
 }
 
 export const Container = styled.View`
@@ -67,4 +68,40 @@ export const TagIcon = styled.View<Props>`
     border-radius: 50px;
     margin-right: 8px;
     background-color: ${({isIntoDiet} : Props) => isIntoDiet ? theme.colors.greenDark : theme.colors.redDark};
+`
+
+export const Modal = styled.View<Props>`
+    display: ${({ isModalOpen } : Props) => isModalOpen ? "flex" : "none"};
+    width: 327px;
+    border-radius: 8px;
+    z-index: 110;
+    padding: 40px 24px 24px 24px;
+    position: absolute;
+    background-color: ${theme.colors.white};
+    top: 286px;
+    align-self: center;
+`
+
+export const ModalText = styled.Text`
+    font-size: ${theme.fontSizes.G};
+    font-weight: bold;
+    color: ${theme.colors.gray2};
+    text-align: center;
+`
+
+export const ModalContainer = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
+export const ButtonModalContainer = styled.View`
+    width: 135px;
+    margin-top: 32px;
+`
+
+export const ModalOverlay = styled.View<Props>`
+    background-color: ${({ isModalOpen } : Props) => isModalOpen ? theme.colors.gray1 : theme.colors.white};
+    opacity: ${({ isModalOpen } : Props) => isModalOpen ? "0.25" : "1"};
+    z-index: ${({ isModalOpen } : Props) => isModalOpen ? "100" : "-1"};
 `

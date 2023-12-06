@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Button } from '../../components/Button'
 import { HeaderWithBack } from '../../components/HeaderWithBack'
 import {
@@ -16,20 +16,49 @@ import {
     IconStatus,
     RdoLabel
 } from './styles'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { DataProps } from '../../storage/diet/itemDTO'
-import { addItem } from '../../storage/diet/addItem';
+import { updateItem } from '../../storage/diet/updateItem';
+import { getItems } from '../../storage/diet/getItems';
 
-export function NewMeal(){
+interface RouteParams{
+    dataId: string
+}
+
+export function EditMeal(){
+    const route = useRoute();
     const navigation = useNavigation();
+    const {dataId} = route.params as RouteParams;
+    const [dietItem, setDietItem] = useState<DataProps>()
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [date, setDate] = useState("");
     const [hour, setHour] = useState("");
     const [intoDiet, setIntoDiet] = useState(false);
+    const [reload, setReload] = useState(false);
     const reDate = /^\d{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])$/;
 
+
+    useEffect(() => {
+        getItems()
+            .then((items) => {
+                setDietItem(items.filter(el => el.id === dataId)[0])
+
+                if(dietItem){
+                    setName(dietItem?.name)
+                    setDescription(dietItem?.description)
+                    setDate(dietItem?.date)
+                    setHour(dietItem?.hour)
+                    setIntoDiet(dietItem?.intoDiet)
+                } else {
+                    setReload(true)
+                }
+            })
+            .catch((error) => {
+                console.error('Erro ao buscar os itens:', error);
+            });
+    },[reload])
 
     const onPressRdoButton = (booleanValue: boolean) => {
         setIntoDiet(booleanValue)
@@ -45,7 +74,7 @@ export function NewMeal(){
         }
 
         const data: DataProps = {
-            id: (Math.random()*1000).toFixed(0),
+            id: dataId,
             name: name,
             description: description,
             date: date,
@@ -53,7 +82,7 @@ export function NewMeal(){
             intoDiet: intoDiet,
         };
             
-        await addItem(data)
+        await updateItem(data)
 
         navigation.navigate('dietAddResult', {intoDiet: intoDiet});
 
@@ -61,7 +90,7 @@ export function NewMeal(){
 
     return(
         <Container>
-            <HeaderWithBack title='New meal' colorType='None'/>
+            <HeaderWithBack title='Edit meal' colorType='None'/>
             <FormContainer>
                 <Label>Name</Label>
                 <LongInput onChangeText={setName} value={name} />

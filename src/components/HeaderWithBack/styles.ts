@@ -19,7 +19,7 @@ export const Container = styled.View<Props>`
 `
 
 export const Button = styled.TouchableOpacity`
-
+    
 `
 
 export const BackIcon = styled(ArrowLeft)`

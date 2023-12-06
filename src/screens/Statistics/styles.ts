@@ -4,6 +4,7 @@ import theme from '../../theme'
 export const Container = styled.ScrollView`
     display: flex;
     flex: 1;
+    background-color: ${theme.colors.white};
 `
 export const BodyContainer = styled.View`
     padding: 0px 24px 0px 24px;

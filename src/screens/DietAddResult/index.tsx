@@ -1,3 +1,4 @@
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Button } from '../../components/Button';
 import {
     Container,
@@ -7,12 +8,18 @@ import {
     Image,
     HighLightText,
 } from './styles';
+import { useState } from 'react';
 
-interface Props{
-    isSuccess: boolean; 
+interface RouteParams{
+    intoDiet: boolean
 }
 
-export function DietAddResult({ isSuccess }: Props){
+export function DietAddResult(){
+const navigation = useNavigation();
+const route = useRoute();
+let { intoDiet } = route.params as RouteParams;
+const [isSuccess, setIsSuccess] = useState(intoDiet);
+
     return(
         <Container>
             {isSuccess ? 
@@ -29,7 +36,7 @@ export function DietAddResult({ isSuccess }: Props){
                 </>
             }
             <ButtonContainer>
-                <Button iconType='None' isBlack={true} text='Ir para a pagina inicial'/>
+                <Button iconType='None' isBlack={true} text='Ir para a pagina inicial' onPress={() => navigation.navigate("home")}/>
             </ButtonContainer>
         </Container>
     )

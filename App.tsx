@@ -10,6 +10,7 @@ import { useFonts,
    NunitoSans_400Regular, 
    NunitoSans_700Bold } 
    from '@expo-google-fonts/nunito-sans';
+import { Route } from './src/routes';
 
 
 export default function App() {
@@ -20,7 +21,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <MealView date='12/08/2022' description='Sanduíche de pão integral com atum e salada de alface e tomate' hour='16:00' isIntoDiet={false} title='Sanduíche'/>
+      <Route/>
     </ThemeProvider>
   );
 }

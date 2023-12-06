@@ -5,19 +5,21 @@ import {
     Separator,
     StatusCircle
 } from './styles';
+import {TouchableOpacityProps} from 'react-native'
 
-interface Props{
-    timeText: string;
-    descriptionText: string;
+
+interface Props extends TouchableOpacityProps{
+    time: string;
+    name: string;
     isIntoDiet: boolean;
 }
 
-export function DietItem({timeText, descriptionText, isIntoDiet}: Props){
+export function DietItem({time, name, isIntoDiet, ...rest}: Props){
     return(
-        <Container>
-            <Time>{timeText}</Time>
+        <Container {...rest}>
+            <Time>{time}</Time>
             <Separator/>
-            <Label>{descriptionText}</Label>
+            <Label>{name}</Label>
             <StatusCircle isIntoDiet={isIntoDiet}/>
         </Container>
     )

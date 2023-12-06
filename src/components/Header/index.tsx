@@ -12,6 +12,7 @@ import {
     BackButton,
     PercentageSubtext
 } from "./styles"
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
     isOpen: boolean;
@@ -19,12 +20,14 @@ interface Props {
 }
 
 export function Header({isOpen, dietSuccess} : Props){  
+    const navigation = useNavigation();
+
     return(
         <Container isOpen={isOpen}>
         { isOpen ?
             <>
                 <PercentageContainer isSuccess={dietSuccess >= 50 ? true : false} isOpen={isOpen}>
-                    <BackButton>
+                    <BackButton onPress={() => {navigation.navigate('home')}}>
                         <BackArrowIcon/>
                     </BackButton>
                     <PercentageText>{dietSuccess.toFixed(2)}%</PercentageText>
@@ -38,7 +41,7 @@ export function Header({isOpen, dietSuccess} : Props){
                     <UserImg source={require("../../assets/img/Shiro.jpeg")} />
                 </IntroContainer>
                 <PercentageContainer isSuccess={dietSuccess >= 50 ? true : false} isOpen={isOpen}>
-                    <ArrowButton>
+                    <ArrowButton onPress={() => {navigation.navigate('statistics')}}>
                         <ArrowIcon/>
                     </ArrowButton>
                     <PercentageText>{dietSuccess.toFixed(2)}%</PercentageText>
